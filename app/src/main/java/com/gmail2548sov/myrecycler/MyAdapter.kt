@@ -35,7 +35,7 @@ class MyAdapter(private val points: ArrayList<InfoPreview>) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        Log.d("Holder", "onCreate")
+        Log.d("Holder", "${getContext().toString()}, ${parent.context.toString()}, Holder")
         return MyHolder(layoutInflater.inflate(R.layout.item_list, parent, false))
     }
 
@@ -47,9 +47,7 @@ class MyAdapter(private val points: ArrayList<InfoPreview>) :
     override fun onBindViewHolder(holder: MyHolder, position: Int) {
         Log.d("Holder", "onBind")
         holder.bind(position)
-        Log.d(
-            "sss",
-            "${position + 1};_ ${points[position].title.toString()};_ ${points[position].isSolved.toString()}, $"
+        Log.d("sss","${position + 1};_ ${points[position].title.toString()};_ ${points[position].isSolved.toString()}, $"
         )
         //var viev: View = holder.itemView
 
@@ -58,9 +56,10 @@ class MyAdapter(private val points: ArrayList<InfoPreview>) :
             val xcontext = mAct
             xcontext as Activity
 
-            var intent = Intent(xcontext,ActivityDatalied::class.java)
+            var intent = Intent(xcontext,ActivityPageDetalied::class.java)
             mInt = intent
-            intent.putExtra(ActivityDatalied.MOBJECT, points[position].mId)
+            intent.putExtra(ActivityPageDetalied.MOBJECT, points[position].mId)
+            Log.d ("intent333", "${intent.toString()}")
             xcontext.startActivityForResult(intent, RESPONS)
 
             Toast.makeText(xcontext, holder.itemView.item_list.text.toString(), Toast.LENGTH_SHORT).show()
@@ -70,10 +69,10 @@ class MyAdapter(private val points: ArrayList<InfoPreview>) :
 
     inner class MyHolder(val view: View) : RecyclerView.ViewHolder(view) {
 
-        fun bind(posit: Int) {
-            view.item_list.text = points[posit].title
-            view.item_data.text = points[posit].mdate.toString()
-            view.imageView2.visibility = if (points[posit].isSolved) View.VISIBLE else View.GONE
+        fun bind(position: Int) {
+            view.item_list.text = points[position].title
+            view.item_data.text = points[position].mdate.toString()
+            view.imageView2.visibility = if (points[position].isSolved) View.VISIBLE else View.GONE
 
         }
 /*

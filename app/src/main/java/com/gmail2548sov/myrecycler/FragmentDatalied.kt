@@ -19,15 +19,16 @@ import java.util.*
 
 class FragmentDatalied : Fragment(), CompoundButton.OnCheckedChangeListener {
 
-    var cid = arguments?.getSerializable(ID) as UUID
+
+
 
     companion object {
 
         val ID: String = "id_datalied"
 
-        fun newInstance(mId: UUID): Fragment {
+        fun newInstance(id: UUID): Fragment {
             val args = Bundle()
-            args.putSerializable(ID, mId)
+            args.putSerializable(ID, id)
 
             var fragment = FragmentDatalied()
             fragment.arguments = args
@@ -35,13 +36,26 @@ class FragmentDatalied : Fragment(), CompoundButton.OnCheckedChangeListener {
         }
 
 
-        //lateinit var cid: UUID
+
     }
+
+
+    //Log.d ("nullarg", "${arguments?.getSerializable(ID}")
+
+
+    lateinit var cid: UUID
+
+
+
+
+
 
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        cid = arguments?.getSerializable(ID) as UUID
         Log.d("extra888", "${cid}")
 
     }
@@ -54,6 +68,7 @@ class FragmentDatalied : Fragment(), CompoundButton.OnCheckedChangeListener {
     ): View? {
         val view: View = inflater.inflate(R.layout.detailed_view_fragment, container, false)
         Log.d("extra889", "${view.crime_solved == null}")
+
 
         setdetail(view)
         view.crime_solved.setOnCheckedChangeListener(this)

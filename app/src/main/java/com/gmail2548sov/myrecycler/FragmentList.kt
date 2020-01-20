@@ -1,4 +1,5 @@
 package com.gmail2548sov.myrecycler
+
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -8,29 +9,29 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.gmail2548sov.myrecycler.SingltonInfo.listInfo
-class FragmentList: Fragment(){
+import kotlinx.android.synthetic.main.fragment_list.view.*
+
+class FragmentList : Fragment() {
 
     companion object {
-       // lateinit var msetContect:Context
         val SOLV = "solv"
         val MID = "mid"
-        }
+    }
 
-
-    //val listInfo = SingltonInfo.listInfo
     val myAdapter: MyAdapter = MyAdapter(listInfo)
     lateinit var myrecyclerView: RecyclerView
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        Log.d("000", "${savedInstanceState.toString()}")
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater,container: ViewGroup?,savedInstanceState: Bundle?): View? {
+        Log.d ("123", "${inflater.toString()}, ${container.toString()}, ${savedInstanceState.toString()}")
         val view: View = inflater.inflate(R.layout.fragment_list, container, false)
-        Log.d ("333", "onCreateView")
-        myrecyclerView = view.findViewById(R.id.myrecycler)
+        myrecyclerView = view.myrecycler
+        Log.d("000", "${savedInstanceState.toString()}")
         myrecyclerView.setHasFixedSize(true)
         myrecyclerView.layoutManager = LinearLayoutManager(context)
         setMyAdapter()
@@ -40,21 +41,14 @@ class FragmentList: Fragment(){
     override fun onResume() {
         super.onResume()
         myAdapter.notifyDataSetChanged()
-        Log.d ("345", "2")
+        Log.d("345", "2")
     }
 
-
-    fun setMyAdapter(){
-
+    fun setMyAdapter() {
         myrecyclerView.adapter = myAdapter
         myAdapter.notifyDataSetChanged()
-        Log.d ("345", "1")
+        Log.d("345", "1")
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-
-        Log.d ("Des","fun Frag_onDestroy")
-    }
 
 }
