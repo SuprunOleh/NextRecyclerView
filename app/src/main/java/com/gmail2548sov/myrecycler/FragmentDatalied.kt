@@ -1,6 +1,7 @@
 package com.gmail2548sov.myrecycler
 
 import android.app.Activity
+import android.app.Activity.RESULT_OK
 import android.content.Context
 import android.content.Intent
 import android.content.Intent.getIntent
@@ -9,6 +10,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.CompoundButton
 import android.widget.RadioGroup
 import androidx.appcompat.app.AppCompatActivity
@@ -20,11 +22,14 @@ import java.util.*
 class FragmentDatalied : Fragment(), CompoundButton.OnCheckedChangeListener {
 
 
-
-
     companion object {
 
+        val DIALOG_DATALIEG = "Dialog"
+
         val ID: String = "id_datalied"
+
+        val REQUEST_CODE: Int = 0
+
 
         fun newInstance(id: UUID): Fragment {
             val args = Bundle()
@@ -36,7 +41,6 @@ class FragmentDatalied : Fragment(), CompoundButton.OnCheckedChangeListener {
         }
 
 
-
     }
 
 
@@ -44,12 +48,7 @@ class FragmentDatalied : Fragment(), CompoundButton.OnCheckedChangeListener {
 
 
     lateinit var cid: UUID
-
-
-
-
-
-
+    lateinit var mbtnDate: Button
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -69,11 +68,44 @@ class FragmentDatalied : Fragment(), CompoundButton.OnCheckedChangeListener {
         val view: View = inflater.inflate(R.layout.detailed_view_fragment, container, false)
         Log.d("extra889", "${view.crime_solved == null}")
 
+        mbtnDate = view.crime_date
+
 
         setdetail(view)
+        //view.crime_date.isEnabled = false
+        view.crime_date.setOnClickListener {
+
+            var manager = getFragmentManager()
+            var dataDialog = DialogDatalied.newInstance(SingltonInfo.getId(cid)?.mdate ?: Date())
+            dataDialog.setTargetFragment(this, REQUEST_CODE)
+            dataDialog.show(manager, DIALOG_DATALIEG)
+
+
+        }
+
         view.crime_solved.setOnCheckedChangeListener(this)
         myIntent()
         return view
+    }
+
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        //super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode != Activity.RESULT_OK) return
+        if (requestCode == REQUEST_CODE) {
+        var date = data?.getSerializableExtra(DialogDatalied.EXTRA_DATA) as Date
+            SingltonInfo.getId(cid)?.mdate = date
+            var calendar = Calendar.getInstance()
+            calendar.time = date
+            var year = calendar.get(Calendar.YEAR)
+            var month = calendar.get(Calendar.MONTH)
+            var day = calendar.get(Calendar.DAY_OF_MONTH)
+            var time = calendar.get(Calendar.AM_PM)
+            mbtnDate.text = "$day.${month+1}.$year"
+
+
+        }
+
     }
 
 

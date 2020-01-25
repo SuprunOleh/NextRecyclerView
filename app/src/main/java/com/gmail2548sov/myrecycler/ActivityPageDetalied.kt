@@ -32,11 +32,10 @@ class ActivityPageDetalied : AppCompatActivity() {
 
 
             override fun getItem(position: Int): Fragment {
-                //var detalied = SingltonInfo.listInfo[position]
-                //Log.d("mobject", "${position}")
-                //var id = MyAdapter.mInt.getSerializableExtra(MOBJECT) as UUID
+
 
                 var id :UUID = SingltonInfo.listInfo[position].mId
+                Log.d("mobject", "${position}, 1")
 
                 return FragmentDatalied.newInstance(id)
             }
@@ -52,6 +51,7 @@ class ActivityPageDetalied : AppCompatActivity() {
         for (i in 0..(SingltonInfo.listInfo.size-1)) {
             if (SingltonInfo.listInfo[i].mId==id) {
                 viewPageDetalied.setCurrentItem(i)
+                Log.d("mobject", "${i+1}, 2")
                 break
             }
 
